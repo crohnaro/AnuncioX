@@ -1,3 +1,11 @@
+import { useState } from "react";
+
+import { useTheme } from "@mui/material/styles";
+
+import { DeleteForever } from "@mui/icons-material";
+
+import { useDropzone } from "react-dropzone";
+
 import {
   Box,
   Button,
@@ -10,25 +18,79 @@ import {
 
 import TemplateDefault from "../../src/templates/Default";
 
-import { useTheme } from "@mui/material/styles";
-import { DeleteForever } from "@mui/icons-material";
-
-import { useState } from "react";
-
 const Publish = () => {
   const theme = useTheme();
 
-  const [isHovering, setIsHovering] = useState(false);
+  const [files, setFiles] = useState([]);
 
-  const handleMouseOver = () => {
-    setIsHovering(true);
-  };
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: "image/*",
+    onDrop: (acceptedFile) => {
+      const newFiles = acceptedFile.map((file) => {
+        return Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        });
+      });
 
-  const handleMouseOut = () => {
-    setIsHovering(false);
-  };
+      setFiles([...files, ...newFiles]);
+    },
+  });
 
   const backgroundColor = theme.palette.background.white;
+
+  const FileItem = ({ file, index }) => {
+    const [isHovering, setIsHovering] = useState(false); // Adicione o estado local isHovering
+    return (
+      <Box
+        key={file.name}
+        sx={{
+          width: 200,
+          height: 150,
+          backgroundSize: "cover",
+          backgroundPosition: "center center",
+          position: "relative",
+          margin: "0 15px 15px 0",
+        }}
+        style={{
+          backgroundImage: `url(${file.preview})`,
+        }}
+        onMouseOver={() => setIsHovering(true)} // Use setIsHovering para atualizar o estado local
+        onMouseOut={() => setIsHovering(false)} // Use setIsHovering para atualizar o estado local
+      >
+        {index === 0 ? (
+          <Box
+            sx={{
+              position: "absolute",
+              backgroundColor: "blue",
+              padding: "6px 10px",
+              bottom: 0,
+            }}
+          >
+            <Typography variant="body2" color="secondary">
+              Principal
+            </Typography>
+          </Box>
+        ) : null}
+        {isHovering && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <IconButton color="secondary">
+              <DeleteForever fontSize="large" />
+            </IconButton>
+          </Box>
+        )}
+      </Box>
+    );
+  };
   return (
     <TemplateDefault>
       <Container maxWidth="sm" sx={{ marginTop: "100px" }}>
@@ -102,7 +164,7 @@ const Publish = () => {
           <Typography component="div" variant="body2" color="primary">
             A primeira imagem é a foto principal do seu anúncio.
           </Typography>
-          <Box sx={{ display: "flex", marginTop: "15px" }}>
+          <Box sx={{ display: "flex", marginTop: "15px", flexWrap: "wrap" }}>
             <Box
               sx={{
                 display: "flex",
@@ -117,47 +179,16 @@ const Publish = () => {
                 border: "2px dashed black",
                 cursor: "pointer",
               }}
+              {...getRootProps()}
             >
+              <input {...getInputProps()} />
               <Typography variant="body2" color="primary">
                 Clique para adicionar ou arraste a imagem para aqui.
               </Typography>
             </Box>
-            <Box
-              sx={{
-                width: 200,
-                height: 150,
-                backgroundSize: "cover",
-                backgroundPosition: "center center",
-                position: 'relative'
-              }}
-              style={{ backgroundImage: "url(https://picsum.photos/200/300)" }}
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
-            >
-                <Box sx={{position: 'absolute', backgroundColor: 'blue', padding: '6px 10px', bottom: 0}}>
-                    <Typography variant="body2" color="secondary">
-                        Principal
-                    </Typography>
-                </Box>  
-              {isHovering &&(
-                    <Box
-                    sx={{
-                    display: 'flex',
-                    justifyContent: "center",
-                    alignItems: "center",
-                    textAlign: "center",
-                    backgroundColor: "rgba(0, 0, 0, 0.7)",
-                    width: "100%",
-                    height: "100%",
-                    }}
-                    >
-                        <IconButton color="secondary">
-                            <DeleteForever fontSize="large" />
-                        </IconButton>
-                    </Box>
-              )}
-              
-            </Box>
+            {files.map((file, index) => (
+              <FileItem file={file} index={index} /> // Renderize o componente FileItem para cada item em `files`
+            ))}
           </Box>
         </Box>
       </Container>
