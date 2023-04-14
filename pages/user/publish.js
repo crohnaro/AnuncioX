@@ -6,6 +6,8 @@ import { DeleteForever } from "@mui/icons-material";
 
 import { useDropzone } from "react-dropzone";
 
+import styles from '../../src/styles/Publish.module.css'
+
 import {
   Box,
   Button,
@@ -38,67 +40,15 @@ const Publish = () => {
     },
   });
 
-  const handleRemoveFile = (fileName) => {
-    setFiles(prevFiles => prevFiles.filter(file => file.name !== fileName));
+  const handleRemoveFile = fileName => {
+    const newFileState = files.filter(file => file.name !== fileName)
+    setFiles(newFileState)
   }
   
 
   const backgroundColor = theme.palette.background.white;
 
-  const FileItem = ({ file, index }) => {
-    const [isHovering, setIsHovering] = useState(false);
-   // Adicione o estado local isHovering
-    return (
-      <Box
-        key={file.name}
-        sx={{
-          width: 200,
-          height: 150,
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
-          position: "relative",
-          margin: "0 15px 15px 0",
-        }}
-        style={{
-          backgroundImage: `url(${file.preview})`,
-        }}
-        onMouseOver={() => setIsHovering(true)} // Use setIsHovering para atualizar o estado local
-        onMouseOut={() => setIsHovering(false)} // Use setIsHovering para atualizar o estado local
-      >
-        {index === 0 ? (
-          <Box
-            sx={{
-              position: "absolute",
-              backgroundColor: "blue",
-              padding: "6px 10px",
-              bottom: 0,
-            }}
-          >
-            <Typography variant="body2" color="secondary">
-              Principal
-            </Typography>
-          </Box>
-        ) : null}
-        {isHovering && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-              backgroundColor: "rgba(0, 0, 0, 0.7)",
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <IconButton color="secondary" onClick={() => handleRemoveFile(file.name)}>
-              <DeleteForever fontSize="large" />
-            </IconButton>
-          </Box>
-        )}
-      </Box>
-    );
-  };
+  
   return (
     <TemplateDefault>
       <Container maxWidth="sm" sx={{ marginTop: "100px" }}>
@@ -172,21 +122,10 @@ const Publish = () => {
           <Typography component="div" variant="body2" color="primary">
             A primeira imagem é a foto principal do seu anúncio.
           </Typography>
-          <Box sx={{ display: "flex", marginTop: "15px", flexWrap: "wrap" }}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                textAlign: "center",
-                padding: "10px",
-                margin: "0 15px 15px 0",
-                width: "200px",
-                height: "150px",
-                backgroundColor: theme.palette.background.default,
-                border: "2px dashed black",
-                cursor: "pointer",
-              }}
+          <Box className={styles.thumbsContainer}>
+            <Box 
+              sx={{ backgroundColor: theme.palette.background.default }} 
+              className={styles.dropzone} 
               {...getRootProps()}
             >
               <input {...getInputProps()} />
@@ -194,9 +133,24 @@ const Publish = () => {
                 Clique para adicionar ou arraste a imagem para aqui.
               </Typography>
             </Box>
-            {files.map((file, index) => (
-              <FileItem key={file.id} file={file} index={index} /> // Renderize o componente FileItem para cada item em `files`
-            ))}
+            {
+              files.map(( file, index ) => (
+                <Box key={file.name} className={styles.thumb} style={{ backgroundImage: `url(${file.preview})` }}>
+                  {index === 0 ? (
+                  <Box className={styles.mainImage}>
+                    <Typography variant="body2" color="secondary">
+                      Principal
+                    </Typography>
+                  </Box>
+                  ) : null  }
+                    <Box className={styles.mask}>
+                      <IconButton color="secondary" onClick={() => handleRemoveFile(file.name)}>
+                        <DeleteForever fontSize="large" />
+                      </IconButton>
+                  </Box>
+                </Box>
+              ))
+            }
           </Box>
         </Box>
       </Container>
