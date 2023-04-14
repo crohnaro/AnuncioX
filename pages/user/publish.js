@@ -12,10 +12,15 @@ import {
   Box,
   Button,
   Container,
+  FormControl,
   IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   Select,
   TextField,
   Typography,
+  Input
 } from "@mui/material";
 
 import TemplateDefault from "../../src/templates/Default";
@@ -169,6 +174,29 @@ const Publish = () => {
             Escreva os detalhes do que está vendendo.
           </Typography>
           <TextField multiline rows={6} variant="outlined" fullWidth />
+        </Box>
+      </Container>
+
+      <Container maxWidth="md" style={{ marginBottom: theme.spacing(3) }}>
+        <Box
+          style={{
+            backgroundColor: backgroundColor,
+            padding: theme.spacing(3),
+          }}
+        >
+          <Typography component="h6" variant="h6" color="primary">
+            Preço
+          </Typography>
+          <br/>
+          <FormControl fullWidth>
+            <InputLabel htmlFor="outlined-adornment-valor">Valor</InputLabel>
+            <OutlinedInput 
+              onChange={() => {}} 
+              startAdornment={<InputAdornment position="start" >R$</InputAdornment>}
+              labelWith={40}
+              label="Valor"
+            />
+          </FormControl>
         </Box>
       </Container>
 
