@@ -24,7 +24,9 @@ const Publish = () => {
   const [files, setFiles] = useState([]);
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*",
+    accept: {
+      "image/*" : []
+    },
     onDrop: (acceptedFile) => {
       const newFiles = acceptedFile.map((file) => {
         return Object.assign(file, {
@@ -36,10 +38,16 @@ const Publish = () => {
     },
   });
 
+  const handleRemoveFile = (fileName) => {
+    setFiles(prevFiles => prevFiles.filter(file => file.name !== fileName));
+  }
+  
+
   const backgroundColor = theme.palette.background.white;
 
   const FileItem = ({ file, index }) => {
-    const [isHovering, setIsHovering] = useState(false); // Adicione o estado local isHovering
+    const [isHovering, setIsHovering] = useState(false);
+   // Adicione o estado local isHovering
     return (
       <Box
         key={file.name}
@@ -83,7 +91,7 @@ const Publish = () => {
               height: "100%",
             }}
           >
-            <IconButton color="secondary">
+            <IconButton color="secondary" onClick={() => handleRemoveFile(file.name)}>
               <DeleteForever fontSize="large" />
             </IconButton>
           </Box>
@@ -187,7 +195,7 @@ const Publish = () => {
               </Typography>
             </Box>
             {files.map((file, index) => (
-              <FileItem file={file} index={index} /> // Renderize o componente FileItem para cada item em `files`
+              <FileItem key={file.id} file={file} index={index} /> // Renderize o componente FileItem para cada item em `files`
             ))}
           </Box>
         </Box>
