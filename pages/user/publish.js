@@ -56,7 +56,7 @@ const Publish = () => {
   
   return (
     <TemplateDefault>
-      <Container maxWidth="sm" sx={{ marginTop: "100px" }}>
+      <Container maxWidth="sm">
         <Typography component="h1" variant="h2" align="center" color="primary">
           Publicar Anúncio
         </Typography>
