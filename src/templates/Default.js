@@ -1,15 +1,17 @@
-import Footer from '../components/Footer'
-import Header from '../components/Header'
+import { Box } from "@mui/material";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 const Default = ({ children }) => {
-    return (
-        <>
-            <Header />
-                {children}
-            <Footer />
-        </>
-       
-    )
-}
+  return (
+    <>
+      <Header />
+        <Box sx={{marginTop: '100px'}}>
+            {children}
+        </Box>
+      <Footer />
+    </>
+  );
+};
 
-export default Default
+export default Default;
