@@ -31,7 +31,7 @@ const Home = () => {
         </Paper>
       </Container>
 
-      <Container maxWidth="md" className={styles.cardGrid}>
+      <Container maxWidth="lg" className={styles.cardGrid}>
         <Typography component="h2" variant="h4" align="center" color="primary">
           Destaques
         </Typography>
