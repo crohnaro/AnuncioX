@@ -1,0 +1,14 @@
+.box{
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 30px;
+}
+
+.productName{
+    margin: 15px 0;
+}
+
+.price{
+    font-weight: bold;
+    margin-bottom: 15px;
+}
