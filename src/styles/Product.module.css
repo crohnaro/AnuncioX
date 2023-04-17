@@ -12,3 +12,11 @@
     font-weight: bold;
     margin-bottom: 15px;
 }
+
+.card{
+    height: 100%;
+}
+
+.cardMedia{
+    padding-top: 56%;
+}

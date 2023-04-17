@@ -4,6 +4,8 @@ import TemplateDefault from '../src/templates/Default'
 
 import styles from '../src/styles/Product.module.css'
 
+import Carousel from 'react-material-ui-carousel'
+
 const Product = () => {
     return (
         <TemplateDefault>
@@ -11,7 +13,27 @@ const Product = () => {
                 <Grid container spacing={3}>
                     <Grid item xs={8}>
                         <Box className={styles.box}>
-                            Carrosel
+                            <Carousel
+                                autoPlay={false}
+                                animation='slide'
+                                navButtonsAlwaysVisible
+                            >
+                                <Card className={styles.card}>
+                                    <CardMedia 
+                                    className={styles.cardMedia}
+                                    image="https://media.pichau.com.br/media/catalog/product/cache/2f958555330323e505eba7ce930bdf27/p/o/pouter-3-rgb-water-cooler-01_8.jpg"
+                                    title="Titulo da imagem"
+                                    >
+                                    </CardMedia>
+                                </Card>
+                                <Card className={styles.card}>
+                                    <CardMedia 
+                                    className={styles.cardMedia}
+                                    image="https://media.pichau.com.br/media/catalog/product/cache/2f958555330323e505eba7ce930bdf27/p/o/pouter-3-rgb-water-cooler-02_8.jpg"
+                                    >
+                                    </CardMedia>
+                                </Card>
+                            </Carousel>
                         </Box>
                         <Box className={styles.box} textAlign="left">
                             <Typography component="span" variant="caption">Publicado 16 de Junho de 2021</Typography>
