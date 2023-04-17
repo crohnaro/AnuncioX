@@ -32,7 +32,7 @@ export default function ButtonAppBar() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Anunx
             </Typography>
-            <Link href="/user/publish" passHref>
+            <Link style={{textDecoration: 'none'}} href="/user/publish" passHref>
               <Button color="secondary" variant="outlined">
                 Anunciar e Vender
               </Button>
