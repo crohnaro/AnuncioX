@@ -56,7 +56,12 @@ const Publish = () => {
       .max(100, 'Titulo muito grande')
       .required('Campo obrigatório'),
     
-    category: yup.string().required('Campo obrigatório'),
+    category: yup.string()
+      .required('Campo obrigatório'),
+    
+    description: yup.string()
+      .min(50, 'Escreva uma descrição de no mínimo 50 caracteres')
+      .required('Campo obrigatório'),
   })
 
   const handleRemoveFile = fileName => {
@@ -81,6 +86,7 @@ const Publish = () => {
         initialValues={{
           title: '',
           category: '',
+          description: '',
         }}
         validationSchema={validationSchema}
         onSubmit={() => {
@@ -104,29 +110,28 @@ const Publish = () => {
                       padding: theme.spacing(3),
                     }}
                   >
-                    <Typography component="h6" variant="h6" color="primary">
-                      Titulo do Anúncio
-                    </Typography>
-                    <TextField
-                      name="title"
-                      value={values.title}
-                      label="ex.: Bicicleta Aro 18 com Garantia"
-                      size="small"
-                      fullWidth
-                      onChange={handleChange}
-                      error={errors.title}
-                      helperText={errors.title}
-                    />
+                    <FormControl error={errors.title} fullWidth>
+                      <InputLabel className={styles.inputLabel}>Titulo do Anúncio</InputLabel>
+                      <Input
+                        name="title"
+                        value={values.title}
+                        onChange={handleChange}
+                      />
+                      <FormHelperText>
+                        { errors.title}
+                      </FormHelperText>
+                    </FormControl>
+                    
                     <br />
                     <br />
-                    <Typography component="h6" variant="h6" color="primary">
-                      Categoria
-                    </Typography>
+                    
                     <FormControl error={errors.category} fullWidth>
+                      <InputLabel className={styles.inputLabel}>Categoria</InputLabel>
                       <Select
                         name="category"
                         value={values.category}
                         onChange={handleChange}
+                        label="Categoria"
                         fullWidth
                       >
 
@@ -205,13 +210,20 @@ const Publish = () => {
                       padding: theme.spacing(3),
                     }}
                   >
-                    <Typography component="h6" variant="h6" color="primary">
-                      Descrição
-                    </Typography>
-                    <Typography component="div" variant="body2" color="primary">
-                      Escreva os detalhes do que está vendendo.
-                    </Typography>
-                    <TextField multiline rows={6} variant="outlined" fullWidth />
+                    <FormControl error={errors.description} fullWidth>
+                      <InputLabel className={styles.inputLabel}>Escreva os detalhes do que está vendendo.</InputLabel>
+                      <Input
+                       name="description"
+                       value={values.description}
+                       onChange={handleChange}
+                       multiline 
+                       rows={6} 
+                       variant="outlined"  
+                       />
+                       <FormHelperText>
+                         {errors.description}
+                       </FormHelperText>
+                    </FormControl>
                   </Box>
                 </Container>
 
