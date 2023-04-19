@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { 
+  initialValues, 
+  validationSchema 
+} from './formValues'
+
 import { Formik } from "formik";
-import * as yup from "yup"
-import { useDropzone } from "react-dropzone";
 import { useTheme } from "@mui/material/styles";
 
-import { DeleteForever } from "@mui/icons-material";
-
-import styles from '../../src/styles/Publish.module.css'
+import styles from '../../../src/styles/Publish.module.css'
 
 import {
   Box,
@@ -14,7 +14,6 @@ import {
   Container,
   FormControl,
   FormHelperText,
-  IconButton,
   InputAdornment,
   InputLabel,
   Select,
@@ -23,42 +22,11 @@ import {
   MenuItem
 } from "@mui/material";
 
-import TemplateDefault from "../../src/templates/Default";
+import TemplateDefault from "../../../src/templates/Default";
+import FileUpload from '../../../src/components/FileUpload';
 
 const Publish = () => {
   const theme = useTheme();
-
-  const validationSchema = yup.object().shape({
-    title: yup.string()
-      .min(6, 'Escreva um titulo maior.')
-      .max(100, 'Titulo muito grande.')
-      .required('Campo obrigatório.'),
-    
-    category: yup.string()
-      .required('Campo obrigatório.'),
-    
-    description: yup.string()
-      .min(50, 'Escreva uma descrição de no mínimo 50 caracteres.')
-      .required('Campo obrigatório.'),
-    
-    price: yup.number()
-      .typeError('Você precisa digitar um número.')
-      .required('Campo obrigatório.'),
-
-    email: yup.string()
-      .email('Digite um e-mail válido.')
-      .required('Campo obrigatório.'),
-    
-    name: yup.string()
-      .required('Campo obrigatório.'),
-      
-    phone: yup.number()
-      .required('Campo obrigatório.'),
-
-    files: yup.array()
-      .min(1, 'Envie pelo menos uma foto')
-      .required('Campo obrigatorio')
-  })
 
   const backgroundColor = theme.palette.background.white;
 
@@ -74,16 +42,7 @@ const Publish = () => {
       </Container>
       <br /><br />
       <Formik
-        initialValues={{
-          title: '',
-          category: '',
-          description: '',
-          price: '',
-          email: '',
-          name: '',
-          phone: '',
-          files: [],
-        }}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values) => {
           console.log('ok enviou o form', values)
@@ -98,26 +57,6 @@ const Publish = () => {
             handleSubmit,
             setFieldValue,
           }) => {
-
-            const { getRootProps, getInputProps } = useDropzone({
-              accept: {
-                "image/*": []
-              },
-              onDrop: (acceptedFile) => {
-                const newFiles = acceptedFile.map((file) => {
-                  return Object.assign(file, {
-                    preview: URL.createObjectURL(file),
-                  });
-                });
-
-                setFieldValue('files',[...values.files, ...newFiles]);
-              },
-            });
-            const handleRemoveFile = fileName => {
-              const newFileState = values.files.filter(file => file.name !== fileName)
-              setFieldValue('files', newFileState)
-            }
-
             return (
               <form onSubmit={handleSubmit}>
                 <Container maxWidth="md" style={{ marginBottom: theme.spacing(3) }}>
@@ -182,49 +121,14 @@ const Publish = () => {
                       padding: theme.spacing(3),
                     }}
                   >
-                    <Typography component="h6" variant="h6" color={errors.files && touched.files ? 'error' : 'primary'}>
-                      Imagens
-                    </Typography>
-                    <Typography component="div" variant="body2" color={errors.files && touched.files ? 'error' : 'primary'}>
-                      A primeira imagem é a foto principal do seu anúncio.
-                    </Typography>
+                   <FileUpload
+                    files={values.files}
+                    errors={errors.files}
+                    touched={touched.files}
+                    setFieldValue={setFieldValue}
+                   />
 
-                    {
-                      errors.files && touched.files
-                      ? <Typography variant='body2' color="error" gutterBottom>{errors.files}</Typography>
-                      : null
-                    }
-
-                    <Box className={styles.thumbsContainer}>
-                      <Box
-                        sx={{ backgroundColor: theme.palette.background.default }}
-                        className={styles.dropzone}
-                        {...getRootProps()}
-                      >
-                        <input name="files" {...getInputProps()} />
-                        <Typography variant="body2" color={errors.files && touched.files ? 'error' : 'primary'}>
-                          Clique para adicionar ou arraste a imagem para aqui.
-                        </Typography>
-                      </Box>
-                      {
-                        values.files.map((file, index) => (
-                          <Box key={file.name} className={styles.thumb} style={{ backgroundImage: `url(${file.preview})` }}>
-                            {index === 0 ? (
-                              <Box className={styles.mainImage}>
-                                <Typography variant="body2" color="secondary">
-                                  Principal
-                                </Typography>
-                              </Box>
-                            ) : null}
-                            <Box className={styles.mask}>
-                              <IconButton color="secondary" onClick={() => handleRemoveFile(file.name)}>
-                                <DeleteForever fontSize="large" />
-                              </IconButton>
-                            </Box>
-                          </Box>
-                        ))
-                      }
-                    </Box>
+                   
                   </Box>
                 </Container>
                 <Container maxWidth="md" style={{ marginBottom: theme.spacing(3) }}>
