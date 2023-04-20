@@ -2,3 +2,8 @@
     margin-bottom: 30px
 }
 
+.loading{
+    display: block;
+    margin: 10px auto;
+}
+
