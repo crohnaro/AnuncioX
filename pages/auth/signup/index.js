@@ -1,7 +1,8 @@
 import { Formik } from 'formik'
 import axios from 'axios';
 import { useTheme } from "@mui/material/styles";
-import { initialValues, validationSchema } from './formValues'
+import { useRouter } from 'next/router'
+
 
 import {
     Container,
@@ -15,20 +16,28 @@ import {
     CircularProgress
 } from '@mui/material'
 
-
+import { initialValues, validationSchema } from './formValues'
 import TemplateDefault from '../../../src/templates/Default'
-
+import useToasty from '../../../src/contexts/Toasty';
 import styles from '../../../src/styles/Signup.module.css'
 
 
 const Signup = () => {
     const theme = useTheme();
+    const { setToasty } = useToasty()
+    const router = useRouter()
 
     const handleFormSubmit = async values => {
         const response = await axios.post('/api/users', values)
 
         if (response.data.success) {
-            console.log('dados cadastrados com sucesso')
+            setToasty({
+                open: true,
+                seveity: 'success',
+                text: 'Cadastro realizado com sucesso!',
+            })
+
+            router.push('/auth/signin')
         }
     }
 
