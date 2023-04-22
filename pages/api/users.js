@@ -1,11 +1,10 @@
-import nextConnect from "next-connect"
-import { get, post } from '../../src/controllers/users'
+import nextConnect from "next-connect";
+import { get, post } from "../../src/controllers/users";
 
-const route = nextConnect()
+const route = nextConnect();
 
-route.get(get)
+route.get(get);
 
-route.post(post)
+route.post(post);
 
-
-export default route
+export default route;
