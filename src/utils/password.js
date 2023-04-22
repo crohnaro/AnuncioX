@@ -1,13 +1,11 @@
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
-const crypto = async pwd =>{
-    const salt = await bcrypt.genSalt()
+const crypto = async (pwd) => {
+  const salt = await bcrypt.genSalt();
 
-    const password = await bcrypt.hash(pwd, salt)
+  const password = await bcrypt.hash(pwd, salt);
 
-    return password
-}
+  return password;
+};
 
-export {
-    crypto
-}
+export { crypto };
