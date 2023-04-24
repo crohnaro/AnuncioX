@@ -2,6 +2,7 @@ import { Formik } from "formik";
 import axios from "axios";
 import { useTheme } from "@mui/material/styles";
 import { useRouter } from "next/router";
+import { signIn, useSession } from  'next-auth/client'
 
 import {
   Container,
@@ -13,6 +14,7 @@ import {
   FormHelperText,
   Button,
   CircularProgress,
+  Alert,
 } from "@mui/material";
 
 import { initialValues, validationSchema } from "./formValues";
@@ -24,9 +26,16 @@ const Signin = () => {
   const theme = useTheme();
   const { setToasty } = useToasty();
   const router = useRouter();
+  const [ session ] = useSession();
 
-  const handleFormSubmit = async (values) => {
-    
+  console.log(session, router.query.i)
+
+  const handleFormSubmit = async values => {
+    signIn('credentials', {
+      email: values.email,
+      password: values.password,
+      callbackUrl: 'http://localhost:3000/user/dashboard'
+    })
   };
 
   const backgroundColor = theme.palette.background.white;
@@ -60,6 +69,13 @@ const Signin = () => {
             }) => {
               return (
                 <form onSubmit={handleSubmit}>
+                  {
+                    router.query.i === '1'
+                    ? (
+                      <Alert sx={{marginTop: "20px"}} severity="error">Usuário ou senha inválidos</Alert>
+                    )
+                    : null
+                  }
                   <FormControl
                     fullWidth
                     error={errors.email && touched.email}
