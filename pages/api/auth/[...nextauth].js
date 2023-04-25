@@ -5,6 +5,11 @@ import Providers from "next-auth/providers";
 export default NextAuth({
   // Configure one or more authentication providers
   providers: [
+		Providers.Google({
+			clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+		}),
+		
     Providers.Credentials({
       name: "Credentials",
       async authorize(credentials) {
@@ -14,7 +19,7 @@ export default NextAuth({
         if (user) {
           return user;
         } else {
-          throw '/auth/signin?i=1'
+          throw pages.error
         }
       },
     }),
