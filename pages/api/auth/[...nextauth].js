@@ -28,5 +28,9 @@ export default NextAuth({
 		secret: process.env.JWT_TOKEN
 	},
 
+	pages:{
+		error: '/auth/signin'
+	},
+
   database: process.env.MONGODB_URI,
 });

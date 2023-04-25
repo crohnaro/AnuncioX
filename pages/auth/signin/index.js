@@ -34,7 +34,7 @@ const Signin = () => {
     signIn('credentials', {
       email: values.email,
       password: values.password,
-      callbackUrl: 'http://localhost:3000/user/dashboard'
+      callbackUrl: 'http://localhost:3000/user/dashboard',
     })
   };
 
@@ -70,7 +70,7 @@ const Signin = () => {
               return (
                 <form onSubmit={handleSubmit}>
                   {
-                    router.query.i === '1'
+                    router.query.error
                     ? (
                       <Alert sx={{marginTop: "20px"}} severity="error">Usuário ou senha inválidos</Alert>
                     )
