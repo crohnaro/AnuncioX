@@ -249,4 +249,6 @@ const Publish = () => {
   );
 };
 
+Home.requireAuth = true
+
 export default Publish;
