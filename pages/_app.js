@@ -8,6 +8,7 @@ import { CacheProvider } from '@emotion/react';
 import theme from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
 import { Provider } from "next-auth/client"
+import CheckAuth from '../src/components/CheckAuth';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -24,7 +25,11 @@ export default function MyApp(props) {
         <ThemeProvider theme={theme}>
           <ToastyProvider>
             <CssBaseline />
-            <Component {...pageProps} />
+            {
+              Component.requireAuth
+              ? <CheckAuth Component={Component} pageProps={pageProps} />
+              : <Component {...pageProps} />
+            }  
           </ToastyProvider>
         </ThemeProvider>
       </Provider>
