@@ -1,8 +1,9 @@
 import { Formik } from "formik";
-import axios from "axios";
 import { useTheme } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { signIn, useSession } from  'next-auth/client'
+
+
 
 import {
   Container,
@@ -21,6 +22,7 @@ import { initialValues, validationSchema } from "./formValues";
 import TemplateDefault from "../../../src/templates/Default";
 import useToasty from "../../../src/contexts/Toasty";
 import styles from "../../../src/styles/Signup.module.css";
+import Image from "next/image";
 
 const Signin = () => {
   const theme = useTheme();
@@ -28,7 +30,13 @@ const Signin = () => {
   const router = useRouter();
   const [ session ] = useSession();
 
-  console.log(session, router.query.i)
+  console.log(session)
+
+  const handleGoogleLogin = () => {
+    signIn('google', {
+      callbackUrl: "http://localhost:3000/user/dashboard",
+    })
+  }
 
   const handleFormSubmit = async values => {
     signIn('credentials', {
@@ -47,6 +55,10 @@ const Signin = () => {
         </Typography>
       </Container>
 
+      <Container>
+        
+      </Container>
+
       <Container maxWidth="md">
         <Box
           style={{
@@ -54,6 +66,21 @@ const Signin = () => {
             padding: theme.spacing(3),
           }}
         >
+          <Box display="flex" justifyContent="center">
+            <Button 
+              variant="contained"
+              color="primary"
+              onClick={handleGoogleLogin}
+              startIcon={
+                <Image src="/images/" width={20} height={20} alt="logo"/>
+              }>
+              Entrar com o Google
+            </Button>
+          </Box>
+
+          <Box className={styles.boxSeparator}>
+            <span>ou</span>
+          </Box>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
