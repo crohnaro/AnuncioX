@@ -1,7 +1,8 @@
 import { Formik } from "formik";
 import { useTheme } from "@mui/material/styles";
 import { useRouter } from "next/router";
-import { signIn, useSession } from  'next-auth/client'
+import { signIn, useSession } from  'next-auth/react'
+
 
 
 
@@ -24,25 +25,25 @@ import useToasty from "../../../src/contexts/Toasty";
 import styles from "../../../src/styles/Signup.module.css";
 import Image from "next/image";
 
-const Signin = ({APP_URL}) => {
+const Signin = () => {
   const theme = useTheme();
   const { setToasty } = useToasty();
   const router = useRouter();
-  const [ session ] = useSession();
+  const { data : session }  = useSession();
 
   console.log(session)
 
   const handleGoogleLogin = () => {
     signIn('google', {
-      callbackUrl: `${APP_URL}/user/dashboard`,
+      callbackUrl: '/user/dashboard',
     })
   }
 
-  const handleFormSubmit = async values => {
+  const handleFormSubmit = async (values) => {
     signIn('credentials', {
       email: values.email,
       password: values.password,
-      callbackUrl: `${APP_URL}/user/dashboard`,
+      callbackUrl: '/user/dashboard',
     })
   };
 
@@ -97,9 +98,9 @@ const Signin = ({APP_URL}) => {
               return (
                 <form onSubmit={handleSubmit}>
                   {
-                    router.query.error
+                    router.query.i === '1'
                     ? (
-                      <Alert sx={{marginTop: "20px"}} severity="error">Usuário ou senha inválidos</Alert>
+                      <Alert sx={{marginTop: "20px", marginBottom: "20px"}} severity="error">Usuário ou senha inválidos</Alert>
                     )
                     : null
                   }

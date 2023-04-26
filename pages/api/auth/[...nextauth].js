@@ -1,17 +1,18 @@
 import axios from "axios";
 import NextAuth from "next-auth";
-import Providers from "next-auth/providers";
+import GoogleProvider from "next-auth/providers/google"
+import CredentialsProvider from "next-auth/providers/credentials"
+import { TypeORMLegacyAdapter } from "@next-auth/typeorm-legacy-adapter"
 
-export default NextAuth({
-  // Configure one or more authentication providers
+
+export const authOptions = {
   providers: [
-		Providers.Google({
+		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
 		}),
 		
-    Providers.Credentials({
+    CredentialsProvider({
       name: "Credentials",
       async authorize(credentials) {
         const res = await axios.post(`${process.env.APP_URL}/api/auth/signin`, credentials);
@@ -26,17 +27,32 @@ export default NextAuth({
     }),
   ],
 
-	session: {
-		jwt: true
-	},
-
-	jwt: {
-		secret: process.env.JWT_TOKEN
-	},
+  secret: '3v3exChkDfWTNE9LGhYglR00oqZPi7JhVu7XnsvqNXg=',
+  
+  session: {
+    strategy: 'jwt',
+  },
 
 	pages:{
-		error: '/auth/signin'
+		error: '/auth/signin?i=1'
 	},
 
-  database: process.env.MONGODB_URI,
-});
+  callbacks: {
+    async jwt({ token, account }) {
+      // Persist the OAuth access_token to the token right after signin
+      if (account) {
+        token.accessToken = account.access_token
+      }
+      return token
+    },
+
+    async session({ session, token, user }) {
+      // Send properties to the client, like an access_token from a provider.
+      session.accessToken = token.accessToken
+      
+      return session
+    },
+  }
+};
+
+export default NextAuth(authOptions)

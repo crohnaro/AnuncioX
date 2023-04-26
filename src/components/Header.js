@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-import { signOut, useSession } from "next-auth/client";
+import { signOut, useSession } from "next-auth/react";
 
 import styles from "../styles/Header.module.css";
 
@@ -23,7 +23,7 @@ import { useState } from "react";
 
 export default function ButtonAppBar() {
   const [anchorUserMenu, setAnchorUserMenu] = useState(false);
-  const [session] = useSession()
+  const { data : session, status } = useSession()
 
   const openUserMenu = Boolean(anchorUserMenu);
 
@@ -47,7 +47,11 @@ export default function ButtonAppBar() {
                     color="secondary"
                     onClick={(e) => setAnchorUserMenu(e.currentTarget)}
                   >
-                    {session.user.image ? <Avatar src={session.user.image} /> : <AccountCircle />}
+                    {
+                      session.user.image 
+                      ? <Avatar src={session.user.image} /> 
+                      : <AccountCircle />
+                    }
                     <Typography
                       className={styles.userName}
                       variant="subtitle2"
