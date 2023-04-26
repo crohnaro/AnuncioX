@@ -8,8 +8,8 @@ const crypto = async (pwd) => {
   return password;
 };
 
-const compare = async (pwd, hash) => {
-  const result = await bcrypt.compare(pwd, hash)
+const compare =  (pwd, hash) => {
+  const result = bcrypt.compareSync(pwd, hash)
 
   return result
 }
