@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 
+import Image from 'next/image'
+
 const thumbsContainer = {
   display: 'flex',
   flexDirection: 'row',
@@ -49,11 +51,12 @@ const FilePreview = (props) => {
   const thumbs = files.map(file => (
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
-        <img
+        <Image
           src={file.preview}
           style={img}
           // Revoke data uri after image is loaded
           onLoad={() => { URL.revokeObjectURL(file.preview) }}
+          alt ="image"
         />
       </div>
     </div>

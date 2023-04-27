@@ -5,8 +5,11 @@ import {
 
 import { Formik } from "formik";
 import { useTheme } from "@mui/material/styles";
+import { useRouter } from 'next/router'
 
 import styles from '../../../src/styles/Publish.module.css'
+
+import axios from 'axios';
 
 import {
   Box,
@@ -24,9 +27,50 @@ import {
 
 import TemplateDefault from "../../../src/templates/Default";
 import FileUpload from '../../../src/components/FileUpload';
+import useToasty from '../../../src/contexts/Toasty'
 
 const Publish = () => {
   const theme = useTheme();
+
+  const { setToasty} = useToasty()
+  const router = useRouter()
+
+
+  const handleSuccess = () => {
+    setToasty({
+      open: true,
+      text: 'Anúncio cadastrado com sucesso',
+      severity: 'success'
+    })
+
+    //router.push('/user/dashboard')
+  }
+
+  const handleError = () => {
+    setToasty({
+      open: true,
+      text: 'Ocorreu um erro ao cadastrar produto',
+      severity: 'success'
+    })
+  }
+
+  const handleFormSubmit =(values) => {
+    const formData = new FormData()
+
+    for (let field in values){
+      if (field === 'files') {
+        values.files.forEach(file => {
+          formData.append('files', file)
+        })
+      } else {
+        formData.append(field, values[field])
+      }
+    }
+
+    axios.post('/api/products', formData)
+      .then(handleSuccess)
+      .catch(handleError)
+  }
 
   const backgroundColor = theme.palette.background.white;
 
@@ -44,9 +88,7 @@ const Publish = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
-          console.log('ok enviou o form', values)
-        }}
+        onSubmit={handleFormSubmit}
       >
         {
           ({
