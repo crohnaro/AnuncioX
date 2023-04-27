@@ -249,6 +249,6 @@ const Publish = () => {
   );
 };
 
-Home.requireAuth = true
+Publish.requireAuth = true
 
 export default Publish;
