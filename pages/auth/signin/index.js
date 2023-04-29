@@ -56,10 +56,6 @@ const Signin = () => {
         </Typography>
       </Container>
 
-      <Container>
-        
-      </Container>
-
       <Container maxWidth="md">
         <Box
           style={{
