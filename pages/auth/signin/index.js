@@ -165,10 +165,6 @@ const Signin = () => {
   );
 };
 
-Signin.getInitialProps = async function() {
-  return {
-    APP_URL: process.env.APP_URL
-  }
-}
+
 
 export default Signin;
