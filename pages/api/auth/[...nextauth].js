@@ -6,11 +6,11 @@ import CredentialsProvider from "next-auth/providers/credentials"
 
 export const authOptions = {
   providers: [
-		GoogleProvider({
-			clientId: process.env.GOOGLE_CLIENT_ID,
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-		}),
-		
+    }),
+
     CredentialsProvider({
       name: "Credentials",
       async authorize(credentials) {
@@ -27,17 +27,18 @@ export const authOptions = {
   ],
 
   secret: '3v3exChkDfWTNE9LGhYglR00oqZPi7JhVu7XnsvqNXg=',
-  
+
   session: {
     strategy: 'jwt',
   },
 
-	pages:{
-		error: '/auth/signin?i=1'
-	},
+  pages: {
+    error: '/auth/signin?i=1'
+  },
 
   callbacks: {
     async jwt({ token, account }) {
+      // Persist the OAuth access_token to the token right after signin
       if (account) {
         token.accessToken = account.access_token
       }
@@ -45,8 +46,9 @@ export const authOptions = {
     },
 
     async session({ session, token, user }) {
+      // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.accessToken
-      
+
       return session
     },
   }

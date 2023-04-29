@@ -1,11 +1,12 @@
-import { 
-  initialValues, 
-  validationSchema 
+import {
+  initialValues,
+  validationSchema
 } from './formValues'
 
 import { Formik } from "formik";
 import { useTheme } from "@mui/material/styles";
 import { useRouter } from 'next/router'
+import { getSession } from 'next-auth/react'
 
 import styles from '../../../src/styles/Publish.module.css'
 
@@ -22,18 +23,25 @@ import {
   Select,
   Typography,
   Input,
-  MenuItem
+  MenuItem,
+  CircularProgress,
 } from "@mui/material";
 
 import TemplateDefault from "../../../src/templates/Default";
 import FileUpload from '../../../src/components/FileUpload';
 import useToasty from '../../../src/contexts/Toasty'
 
-const Publish = () => {
+const Publish = ({ userId, image }) => {
   const theme = useTheme();
 
-  const { setToasty} = useToasty()
+  const { setToasty } = useToasty()
   const router = useRouter()
+
+  const formValues = {
+    ...initialValues,
+  }
+  formValues.userId = userId
+  formValues.image = image
 
 
   const handleSuccess = () => {
@@ -43,7 +51,7 @@ const Publish = () => {
       severity: 'success'
     })
 
-    //router.push('/user/dashboard')
+    router.push('/user/dashboard')
   }
 
   const handleError = () => {
@@ -54,10 +62,10 @@ const Publish = () => {
     })
   }
 
-  const handleFormSubmit =(values) => {
+  const handleFormSubmit = (values) => {
     const formData = new FormData()
 
-    for (let field in values){
+    for (let field in values) {
       if (field === 'files') {
         values.files.forEach(file => {
           formData.append('files', file)
@@ -86,7 +94,7 @@ const Publish = () => {
       </Container>
       <br /><br />
       <Formik
-        initialValues={initialValues}
+        initialValues={formValues}
         validationSchema={validationSchema}
         onSubmit={handleFormSubmit}
       >
@@ -98,9 +106,13 @@ const Publish = () => {
             handleChange,
             handleSubmit,
             setFieldValue,
+            isSubmitting,
           }) => {
             return (
               <form onSubmit={handleSubmit}>
+                <Input type='hidden' name='userId' value={values.userId} />
+                <Input type='hidden' name='image' value={values.image} />
+
                 <Container maxWidth="md" style={{ marginBottom: theme.spacing(3) }}>
                   <Box
                     style={{
@@ -116,14 +128,14 @@ const Publish = () => {
                         onChange={handleChange}
                       />
                       <FormHelperText>
-                        { errors.title && touched.title ? errors.title : null }
+                        {errors.title && touched.title ? errors.title : null}
                       </FormHelperText>
                     </FormControl>
-                    
+
                     <br />
                     <br />
-                    
-                    <FormControl error={errors.category && touched.category } fullWidth>
+
+                    <FormControl error={errors.category && touched.category} fullWidth>
                       <InputLabel className={styles.inputLabel}>Categoria</InputLabel>
                       <Select
                         name="category"
@@ -150,7 +162,7 @@ const Publish = () => {
                         <MenuItem value={"Outros"}>Outros</MenuItem>
                       </Select>
                       <FormHelperText>
-                        {  errors.category && touched.category ? errors.category : null }
+                        {errors.category && touched.category ? errors.category : null}
                       </FormHelperText>
                     </FormControl>
                   </Box>
@@ -163,14 +175,14 @@ const Publish = () => {
                       padding: theme.spacing(3),
                     }}
                   >
-                   <FileUpload
-                    files={values.files}
-                    errors={errors.files}
-                    touched={touched.files}
-                    setFieldValue={setFieldValue}
-                   />
+                    <FileUpload
+                      files={values.files}
+                      errors={errors.files}
+                      touched={touched.files}
+                      setFieldValue={setFieldValue}
+                    />
 
-                   
+
                   </Box>
                 </Container>
                 <Container maxWidth="md" style={{ marginBottom: theme.spacing(3) }}>
@@ -180,19 +192,19 @@ const Publish = () => {
                       padding: theme.spacing(3),
                     }}
                   >
-                    <FormControl error={errors.description && touched.description } fullWidth>
+                    <FormControl error={errors.description && touched.description} fullWidth>
                       <InputLabel className={styles.inputLabel}>Escreva os detalhes do que está vendendo.</InputLabel>
                       <Input
-                       name="description"
-                       value={values.description}
-                       onChange={handleChange}
-                       multiline 
-                       rows={6} 
-                       variant="outlined"  
-                       />
-                       <FormHelperText>
-                         { errors.description && touched.description ? errors.description : null }
-                       </FormHelperText>
+                        name="description"
+                        value={values.description}
+                        onChange={handleChange}
+                        multiline
+                        rows={6}
+                        variant="outlined"
+                      />
+                      <FormHelperText>
+                        {errors.description && touched.description ? errors.description : null}
+                      </FormHelperText>
                     </FormControl>
                   </Box>
                 </Container>
@@ -204,18 +216,18 @@ const Publish = () => {
                       padding: theme.spacing(3),
                     }}
                   >
-                    <FormControl error={errors.price && touched.price } fullWidth>
+                    <FormControl error={errors.price && touched.price} fullWidth>
                       <InputLabel className={styles.inputLabel}>Preço.</InputLabel>
                       <Input
-                       name="price"
-                       value={values.price}
-                       onChange={handleChange}
-                       startAdornment={<InputAdornment position="start" >R$</InputAdornment>}
-                       variant="outlined"  
-                       />
-                       <FormHelperText>
-                         { errors.price && touched.price ? errors.price : null }
-                       </FormHelperText>
+                        name="price"
+                        value={values.price}
+                        onChange={handleChange}
+                        startAdornment={<InputAdornment position="start" >R$</InputAdornment>}
+                        variant="outlined"
+                      />
+                      <FormHelperText>
+                        {errors.price && touched.price ? errors.price : null}
+                      </FormHelperText>
                     </FormControl>
                   </Box>
                 </Container>
@@ -230,7 +242,7 @@ const Publish = () => {
                     <Typography component="h6" variant="h6" color="primary" gutterBottom>
                       Dados de Contato
                     </Typography>
-                    <FormControl error={errors.name && touched.name } fullWidth>
+                    <FormControl error={errors.name && touched.name} fullWidth>
                       <InputLabel className={styles.inputLabel}>Nome</InputLabel>
                       <Input
                         name="name"
@@ -238,14 +250,14 @@ const Publish = () => {
                         onChange={handleChange}
                       />
                       <FormHelperText>
-                        { errors.name && touched.name ? errors.name : null  }
+                        {errors.name && touched.name ? errors.name : null}
                       </FormHelperText>
                     </FormControl>
-                    
+
                     <br />
                     <br />
-                    
-                    <FormControl error={errors.email && touched.email } fullWidth>
+
+                    <FormControl error={errors.email && touched.email} fullWidth>
                       <InputLabel className={styles.inputLabel}>E-mail</InputLabel>
                       <Input
                         name="email"
@@ -253,13 +265,13 @@ const Publish = () => {
                         onChange={handleChange}
                       />
                       <FormHelperText>
-                        { errors.email && touched.email ? errors.email : null  }
+                        {errors.email && touched.email ? errors.email : null}
                       </FormHelperText>
                     </FormControl>
                     <br />
                     <br />
-                    
-                    <FormControl error={errors.phone && touched.phone } fullWidth>
+
+                    <FormControl error={errors.phone && touched.phone} fullWidth>
                       <InputLabel className={styles.inputLabel}>Telefone</InputLabel>
                       <Input
                         name="phone"
@@ -267,7 +279,7 @@ const Publish = () => {
                         onChange={handleChange}
                       />
                       <FormHelperText>
-                        { errors.phone && touched.phone ? errors.phone : null }
+                        {errors.phone && touched.phone ? errors.phone : null}
                       </FormHelperText>
                     </FormControl>
                     <br />
@@ -277,9 +289,17 @@ const Publish = () => {
 
                 <Container maxWidth="md" style={{ marginBottom: theme.spacing(3) }}>
                   <Box textAlign="right">
-                    <Button type="submit" variant="contained" color="primary">
-                      Publicar Anúncio
-                    </Button>
+                    {
+                      isSubmitting
+                        ? (
+                          <CircularProgress sx={{ display: 'block', margin: '10px auto' }} />
+                        )
+                        : (
+                          <Button type='submit' variant='contained' color='primary'>
+                            Publicar Anúncio
+                          </Button>
+                        )
+                    }
                   </Box>
                 </Container>
               </form>
@@ -292,5 +312,28 @@ const Publish = () => {
 };
 
 Publish.requireAuth = true
+
+export async function getServerSideProps({ req }) {
+  const { accessToken, user } = await getSession({ req })
+
+  let token = ''
+  accessToken
+    ? token = accessToken
+    : token = user.email
+
+
+  let img = ''
+  user.image
+    ? img = user.image
+    : img = null
+
+
+  return {
+    props: {
+      userId: token,
+      image: img,
+    }
+  }
+}
 
 export default Publish;
