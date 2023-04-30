@@ -1,5 +1,3 @@
-import SearchIcon from "@mui/icons-material/Search";
-import { useTheme } from "@mui/material/styles";
 import {
   Container,
   Grid,
@@ -8,14 +6,20 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import TemplateDefault from "../src/templates/Default";
-
-import Card from "../src/components/Card"
 
 import styles from "../src/styles/Index.module.css";
+import TemplateDefault from "../src/templates/Default";
 
-const Home = () => {
-  const theme = useTheme();
+import Card from "../src/components/Card";
+import SearchIcon from "@mui/icons-material/Search";
+
+import Link from "next/link";
+import slugify from "slugify";
+import dbConnect from "../src/utils/dbConnect";
+import ProductsModel from "../src/models/products";
+import { formatCurrency } from "../src/utils/currency";
+
+const Home = ({ products }) => {
   return (
     <TemplateDefault>
       <Container maxWidth="md">
@@ -36,38 +40,41 @@ const Home = () => {
         </Typography>
         <br />
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card
-              image={"https://picsum.photos/200/300"}
-              title={"Produto X"}
-              subtitle={"R$ 60,00"}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card
-              image={"https://picsum.photos/200/300"}
-              title={"Produto X"}
-              subtitle={"R$ 60,00"}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card
-              image={"https://picsum.photos/200/300"}
-              title={"Produto X"}
-              subtitle={"R$ 60,00"}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card
-              image={"https://picsum.photos/200/300"}
-              title={"Produto X"}
-              subtitle={"R$ 60,00"}
-            />
-          </Grid>
+          {products.map((product) => {
+            const category = slugify(product.category).toLocaleLowerCase()
+            const title = slugify(product.title).toLocaleLowerCase()
+
+            return (
+              <Grid key={product._id} item xs={12} sm={6} md={4}>
+                <Link style={{textDecoration: 'none'}} href={`/${category}/${title}/${product._id}`}>
+                  <Card
+                    image={`/uploads/${product.files[0].name}`}
+                    title={product.title}
+                    subtitle={formatCurrency(product.price)}
+                  />
+                </Link>
+              </Grid>
+            );
+          })}
         </Grid>
       </Container>
     </TemplateDefault>
   );
 };
 
+export async function getServerSideProps() {
+  await dbConnect();
+
+  const products = await ProductsModel.aggregate([
+    {
+      $sample: { size: 6 },
+    },
+  ]);
+
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products)),
+    },
+  };
+}
 export default Home;
