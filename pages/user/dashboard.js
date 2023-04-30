@@ -121,7 +121,7 @@ const Home = ({ products }) => {
                   
                   
                   <Grid key={product._id} item xs={12} sm={6} md={4}>
-                    <Link href={`/${product.category}/${product.title}/${product._id}`}>
+                    <Link style={{textDecoration: 'none'}} href={`/${product.category}/${product.title}/${product._id}`}>
                       <Card 
                           image={`/uploads/${product.files[0].name}`} 
                           title={product.title} 
