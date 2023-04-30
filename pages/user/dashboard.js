@@ -117,18 +117,23 @@ const Home = ({ products }) => {
               products.map(product => {
                 if(removedProducts.includes(product._id)) return null
                 return (
+                  
+                  
+                  
                   <Grid key={product._id} item xs={12} sm={6} md={4}>
-                    <Card 
-                      image={`/uploads/${product.files[0].name}`} 
-                      title={product.title} 
-                      subtitle={ formatCurrency( product.price ) } 
-                      actions={
-                        <>
-                          <Button size='small' color='primary'>Editar</Button>
-                          <Button size='small' color='primary' onClick={() =>handleClickRemove(product._id)}>Remover</Button>
-                        </>
-                      }
-                    />
+                    <Link href={`/${product.category}/${product.title}/${product._id}`}>
+                      <Card 
+                          image={`/uploads/${product.files[0].name}`} 
+                          title={product.title} 
+                          subtitle={ formatCurrency( product.price ) } 
+                          actions={
+                            <>
+                              <Button size='small' color='primary'>Editar</Button>
+                              <Button size='small' color='primary' onClick={() =>handleClickRemove(product._id)}>Remover</Button>
+                            </>
+                          }
+                        />
+                    </Link>
                   </Grid>
                 )
               })
