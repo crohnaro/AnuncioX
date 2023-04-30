@@ -49,7 +49,7 @@ export default function ButtonAppBar() {
                   >
                     {
                       session.user.image 
-                      ? <Avatar src={session.user.image} /> 
+                      ? <Avatar className={styles.avatar} src={session.user.image} /> 
                       : <AccountCircle />
                     }
                     <Typography
