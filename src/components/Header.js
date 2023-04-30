@@ -32,9 +32,14 @@ export default function ButtonAppBar() {
       <AppBar position="static" elevation={3}>
         <Container maxWidth="lg">
           <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Anunx
-            </Typography>
+            
+              <Typography sx={{ flexGrow: 1 }} variant="h6" component="div" >
+                <Link style={{textDecoration: 'none', color: 'white'}} href={'/'} >
+                  Anunx
+                </Link>  
+              </Typography>
+            
+            
             <Link style={{ textDecoration: 'none' }} href={session ? '/user/publish' : '/auth/signin'} passHref>
               <Button color="secondary" variant="outlined">
                 Anunciar e Vender

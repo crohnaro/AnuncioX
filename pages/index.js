@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { useRouter } from 'next/router';
+
 import {
   Container,
   Grid,
@@ -20,6 +23,13 @@ import ProductsModel from "../src/models/products";
 import { formatCurrency } from "../src/utils/currency";
 
 const Home = ({ products }) => {
+  const router = useRouter()
+  const [search, setSearch] = useState()
+  const handleSubmitSearch = () => {
+    router.push({
+      pathname: `/search/${search}`,
+    }) 
+  }
   return (
     <TemplateDefault>
       <Container maxWidth="md">
@@ -27,8 +37,12 @@ const Home = ({ products }) => {
           O que deseja encontrar?
         </Typography>
         <Paper className={styles.searchBox}>
-          <InputBase placeholder="Ex.: Iphone 12 com garantia" fullWidth />
-          <IconButton>
+          <InputBase 
+          placeholder="Ex.: Iphone 12 com garantia" 
+          fullWidth 
+          onChange={(e) => setSearch(e.target.value)}
+          />
+          <IconButton onClick={handleSubmitSearch}>
             <SearchIcon />
           </IconButton>
         </Paper>

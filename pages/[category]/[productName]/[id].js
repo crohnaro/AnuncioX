@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Card,
+  CardContent,
   CardHeader,
   CardMedia,
   Chip,
@@ -85,6 +86,9 @@ const Product = ({ product }) => {
                 image={product.user.image}
                 title={product.user.name}
               />
+              <CardContent>
+                <Typography component="p" variant="body2">{product.user.phone}</Typography>
+              </CardContent>
             </Card>
             <Box textAlign="left" className={styles.box}>
               <Typography component="h6" variant="h6">
