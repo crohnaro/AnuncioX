@@ -1,28 +1,109 @@
-import { Button, Container, Grid, Typography } from "@mui/material";
+import { useState } from "react";
+import { getSession } from "next-auth/react";
+import { formatCurrency } from '../../src/utils/currency'
+import dbConnect from "../../src/utils/dbConnect";
+import ProductsModel from '../../src/models/products';
+import useToasty from "../../src/contexts/Toasty";
+
+import Link from 'next/link'
+
+import { 
+  Button, 
+  Container, 
+  Grid, 
+  Typography, 
+  Dialog, 
+  DialogActions, 
+  DialogContent, 
+  DialogContentText, 
+  DialogTitle 
+} from "@mui/material";
 
 import TemplateDefault from "../../src/templates/Default";
 import Card from "../../src/components/Card";
-import ProductsModel from '../../src/models/products';
-
-import { getSession } from "next-auth/react";
-import dbConnect from "../../src/utils/dbConnect";
-import { formatCurrency } from '../../src/utils/currency'
+import axios from "axios";
 
 const Home = ({ products }) => {
+  const [productId, setProductId] = useState()
+  const [removedProducts, setRemovedProducts] = useState([])
+  const [openConfirmModal, setOpenConfirmModal] = useState(false)
+  const { setToasty } = useToasty()
+
+  const handleCloseModal = () => setOpenConfirmModal(false)
+  
+  const handleClickRemove = (productId) =>{
+    setProductId(productId)
+    setOpenConfirmModal(true)
+  }
+
+  const handleConfirmRemove = () => {
+    axios.delete('/api/products/delete', {
+      data: {
+        id : productId
+      }
+    }).then(handleSuccess)
+      .catch(handleError)
+  }
+
+  const handleSuccess = () => {
+    console.log('deletou')
+    setOpenConfirmModal(false)
+    setRemovedProducts([...removedProducts, productId])
+    setToasty({
+      open: true,
+      severity: 'success',
+      text: "Anuncio removido com sucesso!"
+    })
+  }
+
+  const handleError = () => {
+    console.log('nao deletou')
+    setOpenConfirmModal(false)
+    setToasty({
+      open: true,
+      severity: 'error',
+      text: "Ocorreu um erro!"
+    })
+  }
+
+
+
   return (
     <>
       <TemplateDefault>
+        <Dialog
+          open={openConfirmModal}
+          onClose={handleCloseModal}
+        >
+          <DialogTitle>
+            Deseja realmente remover este anúncio?
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Ao confirmar essa operação, nao tem como reverter
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseModal}>Cancelar</Button>
+            <Button onClick={handleConfirmRemove} autoFocus>
+              Confirmar
+            </Button>
+          </DialogActions>
+        </Dialog>
         <Container maxWidth="sm">
           <Typography component="h1" variant="h2" align="center">
             Meus Anúncios
           </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ margin: "30px auto", display: "block" }}
-          >
-            Publicar novo Anúncio
-          </Button>
+          <Link style={{ textDecoration: 'none' }} href={'/user/publish'} passHref>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ margin: "30px auto", display: "block" }}
+            >
+              Publicar novo Anúncio
+            </Button>
+          </Link>
+          
         </Container>
         <Container maxWidth="md" sx={{ marginTop: "100px" }}>
           {
@@ -33,21 +114,24 @@ const Home = ({ products }) => {
           }
           <Grid container spacing={4}>
             {
-              products.map(product => (
-                <Grid key={product._id} item xs={12} sm={6} md={4}>
-                  <Card 
-                    image={`/uploads/${product.files[0].name}`} 
-                    title={product.title} 
-                    subtitle={ formatCurrency( product.price ) } 
-                    actions={
-                      <>
-                        <Button size='small' color='primary'>Editar</Button>
-                        <Button size='small' color='primary'>Remover</Button>
-                      </>
-                    }
-                  />
-                </Grid>
-              ))
+              products.map(product => {
+                if(removedProducts.includes(product._id)) return null
+                return (
+                  <Grid key={product._id} item xs={12} sm={6} md={4}>
+                    <Card 
+                      image={`/uploads/${product.files[0].name}`} 
+                      title={product.title} 
+                      subtitle={ formatCurrency( product.price ) } 
+                      actions={
+                        <>
+                          <Button size='small' color='primary'>Editar</Button>
+                          <Button size='small' color='primary' onClick={() =>handleClickRemove(product._id)}>Remover</Button>
+                        </>
+                      }
+                    />
+                  </Grid>
+                )
+              })
             }
           </Grid>
         </Container>
