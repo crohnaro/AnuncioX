@@ -4,10 +4,6 @@
     "pages/[category]/[productName]/[id].js": {
       "memory": 3008,
       "maxDuration": 10
-    },
-    "api/*.js": {
-      "memory": 3008,
-      "maxDuration": 30
     }
   }
 }
