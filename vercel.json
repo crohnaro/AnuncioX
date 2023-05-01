@@ -1,0 +1,13 @@
+{
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./",
+  "functions": {
+    "/[category]/[productName]/[id].js": {
+      "memory": 3008,
+      "maxDuration": 30
+    },
+    "api/*.js": {
+      "memory": 3008,
+      "maxDuration": 30
+    }
+  }
+}
