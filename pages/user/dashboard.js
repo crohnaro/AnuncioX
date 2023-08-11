@@ -123,7 +123,7 @@ const Home = ({ products }) => {
                   <Grid key={product._id} item xs={12} sm={6} md={4}>
                     <Link style={{textDecoration: 'none'}} href={`/${product.category}/${product.title}/${product._id}`}>
                       <Card 
-                          image={`/uploads/${product.files[0].name}`} 
+                          image={product.files[0].url} 
                           title={product.title} 
                           subtitle={ formatCurrency( product.price ) } 
                           actions={
