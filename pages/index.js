@@ -81,7 +81,7 @@ export async function getServerSideProps() {
 
   const products = await ProductsModel.aggregate([
     {
-      $sample: { size: 6 },
+      $sample: { size: 3 },
     },
   ]);
 
