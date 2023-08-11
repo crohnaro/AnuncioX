@@ -19,7 +19,7 @@ import {
   Alert,
 } from "@mui/material";
 
-import { initialValues, validationSchema } from "./formValues";
+import { initialValues, validationSchema } from "../../../lib/formValuesSignin";
 import TemplateDefault from "../../../src/templates/Default";
 import useToasty from "../../../src/contexts/Toasty";
 import styles from "../../../src/styles/Signup.module.css";

@@ -38,7 +38,7 @@ const Product = ({ product }) => {
                     <Card key={file.name} className={styles.card}>
                       <CardMedia
                       className={styles.cardMedia}
-                      image={`/uploads/${file.name}`}
+                      image={file.url}
                       title={product.title}
                     ></CardMedia>
                     </Card>

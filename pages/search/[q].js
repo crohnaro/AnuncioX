@@ -57,7 +57,7 @@ const List = ({ products }) => {
                       href={`/${category}/${title}/${product._id}`}
                     >
                       <Card
-                        image={`/uploads/${product.files[0].name}`}
+                        image={product.files[0].url}
                         title={product.title}
                         subtitle={formatCurrency(product.price)}
                       />
