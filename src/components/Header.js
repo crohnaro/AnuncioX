@@ -20,6 +20,8 @@ import {
 import Link from "next/link";
 import { AccountCircle } from "@mui/icons-material";
 import { useState } from "react";
+import Image from "next/image";
+import logo from '../../public/Mediamodifier-Design-Template.png'
 
 export default function ButtonAppBar() {
   const [anchorUserMenu, setAnchorUserMenu] = useState(false);
@@ -34,8 +36,8 @@ export default function ButtonAppBar() {
           <Toolbar>
             
               <Typography sx={{ flexGrow: 1 }} variant="h6" component="div" >
-                <Link style={{textDecoration: 'none', color: 'white'}} href={'/'} >
-                  Anunx
+                <Link style={{textDecoration: 'none', color: 'white',display: 'flex', alignItems: 'center', padding: '10px'}} href={'/'} >
+                  <Image alt="anunX Logo" width={64} priority src={logo}/>
                 </Link>  
               </Typography>
             
