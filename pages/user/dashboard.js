@@ -154,7 +154,7 @@ export async function getServerSideProps({ req }) {
   let token = "";
   session.accessToken
     ? (token = session.accessToken)
-    : (token = session.user.email);
+    : (token = session.user.id);
 
   const products = await ProductsModel.find({ "user.id": token });
   return {
