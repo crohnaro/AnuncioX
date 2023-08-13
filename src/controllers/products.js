@@ -64,7 +64,7 @@ const post = async (req, res) => {
       category,
       description,
       price,
-      userId,
+      userEmail,
       image,
       name,
       email,
@@ -77,7 +77,7 @@ const post = async (req, res) => {
       description,
       price,
       user: {
-        id: userId,
+        id: userEmail,
         image,
         name,
         email,

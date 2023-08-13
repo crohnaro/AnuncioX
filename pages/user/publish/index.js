@@ -28,7 +28,7 @@ import TemplateDefault from "../../../src/templates/Default";
 import FileUpload from "../../../src/components/FileUpload";
 import useToasty from "../../../src/contexts/Toasty";
 
-const Publish = ({ userId, image }) => {
+const Publish = ({ userEmail, image }) => {
   const theme = useTheme();
 
   const { setToasty } = useToasty();
@@ -37,7 +37,7 @@ const Publish = ({ userId, image }) => {
   const formValues = {
     ...initialValues,
   };
-  formValues.userId = userId;
+  formValues.userEmail = userEmail;
   formValues.image = image;
 
   const handleSuccess = () => {
@@ -107,7 +107,7 @@ const Publish = ({ userId, image }) => {
         }) => {
           return (
             <form onSubmit={handleSubmit}>
-              <Input type="hidden" name="userId" value={values.userId} />
+              <Input type="hidden" name="userEmail" value={values.userEmail} />
               <Input type="hidden" name="image" value={values.image} />
 
               <Container
@@ -372,7 +372,7 @@ export async function getServerSideProps({ req }) {
 
   return {
     props: {
-      userId: token,
+      userEmail: token,
       image: img,
     },
   };
