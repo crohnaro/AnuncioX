@@ -36,6 +36,7 @@ const Signin = () => {
   const handleGoogleLogin = () => {
     signIn('google', {
       callbackUrl: '/user/dashboard',
+      authMethod: 'google',
     })
   }
 
@@ -43,6 +44,7 @@ const Signin = () => {
     signIn('credentials', {
       email: values.email,
       password: values.password,
+      authMethod: 'credentials',
       callbackUrl: '/user/dashboard',
     })
   };
