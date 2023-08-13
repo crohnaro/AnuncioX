@@ -11,17 +11,8 @@ const schema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: function () {
-      // Torna o campo obrigatório apenas quando o authMethod for "credentials"
-      return this.authMethod === "credentials";
-    },
+    required: [true, 'O campo "senha" é obrigatório.'],
   },
-  authMethod: {
-    type: String,
-  },
-  image: {
-    type: String,
-  }
 });
 
 export default mongoose.models.users || mongoose.model("users", schema);
