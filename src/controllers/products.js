@@ -97,21 +97,25 @@ const post = async (req, res) => {
 };
 
 const remove = async (req, res) => {
-  await dbConnect();
+  console.log("Remove function called");
+  try {
+    await dbConnect()
+    const productId = req.query.id
+    const deleted = await ProductsModel.findByIdAndRemove(productId);
 
-  const id = req.body.id;
-  const files = req.body.files;
+    console.log("Product deleted:", deleted);
 
-  for (let i = 0; i < files.length; i++) {
-    cloudinary.v2.uploader.destroy(files[i].publicId);
+    if (deleted) {
+      console.log("Product deleted:", deleted); // Adicione este log para verificar o produto deletado
+      res.status(200).json({ success: true });
+    } else {
+      console.log("Product not found for deletion"); // Adicione este log para verificar se o produto não foi encontrado
+      res.status(404).json({ success: false, message: "Product not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
-  const deleted = await ProductsModel.findOneAndRemove({ id: id });
-
-  if (deleted) {
-    return res.status(200).json({ success: true });
-  } else {
-    return res.status(500).json({ success: false });
-  }
-};
+}
 
 export { post, remove };
