@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useRouter } from "next/router";
+
 import {
   Container,
   Grid,
@@ -8,10 +11,10 @@ import {
   Typography,
 } from "@mui/material";
 import TemplateDefault from "../../src/templates/Default";
-import Link from 'next/link'
+import Link from "next/link";
 import slugify from "slugify";
 import { formatCurrency } from "../../src/utils/currency";
-import ProductsModel from '../../src/models/products'
+import ProductsModel from "../../src/models/products";
 
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -20,14 +23,25 @@ import styles from "../../src/styles/List.module.css";
 import Card from "../../src/components/Card";
 
 const List = ({ products }) => {
+  const router = useRouter();
+  const [search, setSearch] = useState();
+  const handleSubmitSearch = () => {
+    router.push({
+      pathname: `/search/${search}`,
+    });
+  };
   return (
     <TemplateDefault>
       <Container maxWidth="lg">
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={12}>
-            <Paper component="form" className={styles.searchBox}>
-              <InputBase placeholder="Ex.: Iphone 12 com garantia" fullWidth />
-              <IconButton type="submit" aria-label="search">
+            <Paper className={styles.searchBox}>
+              <InputBase
+                placeholder="Ex.: Iphone 12 com garantia"
+                fullWidth
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <IconButton onClick={handleSubmitSearch}>
                 <SearchIcon />
               </IconButton>
             </Paper>
