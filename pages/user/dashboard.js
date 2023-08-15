@@ -109,7 +109,7 @@ const Home = ({ products }) => {
             </Button>
           </Link>
         </Container>
-        <Container maxWidth="md" sx={{ marginTop: "100px" }}>
+        <Container maxWidth="lg" sx={{ marginTop: "100px" }}>
           {filteredProducts.length === 0 && (
             <Typography
               component="div"
