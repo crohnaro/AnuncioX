@@ -25,6 +25,8 @@ import useToasty from "../../../src/contexts/Toasty";
 import styles from "../../../src/styles/Signup.module.css";
 import Image from "next/image";
 
+import logo from '../../../public/google-logo.svg'
+
 const Signin = () => {
   const theme = useTheme();
   const { setToasty } = useToasty();
@@ -69,7 +71,7 @@ const Signin = () => {
               color="primary"
               onClick={handleGoogleLogin}
               startIcon={
-                <Image src="/images/" width={20} height={20} alt="logo"/>
+                <Image src={logo} width={20} height={20} alt="logo"/>
               }>
               Entrar com o Google
             </Button>
