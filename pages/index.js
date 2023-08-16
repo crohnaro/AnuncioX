@@ -1,12 +1,7 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router';
-
 import {
   Container,
   Grid,
-  IconButton,
-  InputBase,
-  Paper,
+
   Typography,
 } from "@mui/material";
 
@@ -14,38 +9,23 @@ import styles from "../src/styles/Index.module.css";
 import TemplateDefault from "../src/templates/Default";
 
 import Card from "../src/components/Card";
-import SearchIcon from "@mui/icons-material/Search";
 
 import Link from "next/link";
 import slugify from "slugify";
 import dbConnect from "../src/utils/dbConnect";
 import ProductsModel from "../src/models/products";
 import { formatCurrency } from "../src/utils/currency";
+import SearchInput from '@/src/components/SearchInput';
 
 const Home = ({ products }) => {
-  const router = useRouter()
-  const [search, setSearch] = useState()
-  const handleSubmitSearch = () => {
-    router.push({
-      pathname: `/search/${search}`,
-    }) 
-  }
+  
   return (
     <TemplateDefault>
       <Container maxWidth="md">
         <Typography component="h1" variant="h3" align="center" color="primary">
           O que deseja encontrar?
         </Typography>
-        <Paper className={styles.searchBox}>
-          <InputBase 
-          placeholder="Ex.: Iphone 12 com garantia" 
-          fullWidth 
-          onChange={(e) => setSearch(e.target.value)}
-          />
-          <IconButton onClick={handleSubmitSearch}>
-            <SearchIcon />
-          </IconButton>
-        </Paper>
+        <SearchInput />
       </Container>
 
       <Container maxWidth="lg" className={styles.cardGrid}>
