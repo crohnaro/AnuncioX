@@ -2,6 +2,17 @@
   margin-bottom: 30px;
 }
 
+.links{
+  text-decoration: none;
+  color: black;
+  transition: all ease-in 0.2s;
+  border-bottom: white 1px solid;
+}
+
+.links:hover{
+  border-bottom: #000000 1px solid;
+}
+
 .loading {
   display: block;
   margin: 10px auto;
