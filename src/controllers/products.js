@@ -96,6 +96,57 @@ const post = async (req, res) => {
   });
 };
 
+const update = async (req, res) => {
+  await dbConnect()
+
+  const { id } = req.query
+
+  const form = new formidable.IncomingForm({
+    multiples: true,
+    uploadDir: 'public/uploads',
+    keepExtensions: true,
+  })
+
+  form.parse(req, async (error, fields, data) => {
+    if (error) {
+      return res.status(500).json({ success: false })
+    }
+
+    const {
+      title,
+      category,
+      description,
+      price,
+      name,
+      email,
+      phone,
+      locationCity,
+      locationState,
+    } = fields
+
+    const product = await ProductsModel.findById(id)
+
+    product.title = title
+    product.category = category
+    product.description = description
+    product.price = price
+    product.user.name = name
+    product.user.email = email
+    product.user.phone = phone
+    product.locationCity = locationCity
+    product.locationState = locationState
+
+    const updated = product.save()
+
+    if (updated) {
+      res.status(200).json({ success: true })
+    }
+    else {
+      res.status(500).json({ success: false })
+    }
+  })
+}
+
 const remove = async (req, res) => {
   console.log("Remove function called");
   try {
@@ -118,4 +169,4 @@ const remove = async (req, res) => {
   }
 }
 
-export { post, remove };
+export { post, remove, update };
