@@ -3,9 +3,6 @@ import { useTheme } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { signIn, useSession } from  'next-auth/react'
 
-
-
-
 import {
   Container,
   Typography,
@@ -26,6 +23,7 @@ import styles from "../../../src/styles/Signup.module.css";
 import Image from "next/image";
 
 import logo from '../../../public/google-logo.svg'
+import Link from "next/link";
 
 const Signin = () => {
   const theme = useTheme();
@@ -140,6 +138,8 @@ const Signin = () => {
                     </FormHelperText>
                   </FormControl>
 
+                  
+
                   {isSubmitting ? (
                     <CircularProgress className={styles.loading} />
                   ) : (
@@ -153,6 +153,18 @@ const Signin = () => {
                       Entrar
                     </Button>
                   )}
+                  <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        alignItems: "flex-end",
+                        marginTop: '10px',
+                      }}
+                    >
+                      <Link className={styles.links} fontSize="sm" href="/auth/signup" fontWeight="lg">
+                        Ainda não tem conta? Registre-se!
+                      </Link>
+                    </Box>
                 </form>
               );
             }}
