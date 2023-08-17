@@ -140,9 +140,14 @@ const Home = ({ products }) => {
                             Ver anuncio
                           </Button>
                         </Link>
-                        <Button size="small" color="primary">
-                          Editar
-                        </Button>
+                        <Link
+                          style={{ textDecoration: "none" }}
+                          href={`/user/update/${product._id}`}
+                        >
+                          <Button size="small" color="primary">
+                            Editar
+                          </Button>
+                        </Link>
                         <Button
                           size="small"
                           color="primary"
