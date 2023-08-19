@@ -20,6 +20,8 @@ import { Formik } from "formik";
 import { signIn, useSession } from "next-auth/react";
 import { initialValues, validationSchema } from "../../../lib/formValuesSignin";
 
+import logo from '../../../public/Mediamodifier-Design-Template.png'
+
 const handleGoogleLogin = () => {
   signIn("google", {
     callbackUrl: "/user/dashboard",
@@ -122,26 +124,18 @@ const Signuptest = () => {
               justifyContent: "space-between",
             }}
           >
-            <Typography
-              fontWeight="lg"
-              startDecorator={
-                <Box
-                  component="span"
-                  sx={{
-                    width: 24,
-                    height: 24,
-                    background: (theme) =>
-                      `linear-gradient(45deg, ${theme.vars.palette.primary.solidBg}, ${theme.vars.palette.primary.solidBg} 30%, ${theme.vars.palette.primary.softBg})`,
-                    borderRadius: "50%",
-                    boxShadow: (theme) => theme.shadow.md,
-                    "--joy-shadowChannel": (theme) =>
-                      theme.vars.palette.primary.mainChannel,
-                  }}
-                />
-              }
+            <Link
+              style={{
+                textDecoration: "none",
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                padding: "10px",
+              }}
+              href={"/"}
             >
-              Logo
-            </Typography>
+              <Image alt="anunX Logo" width={64} priority src={logo} />
+            </Link>
             <ColorSchemeToggle />
           </Box>
           <Box
