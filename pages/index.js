@@ -22,14 +22,14 @@ const Home = ({ products }) => {
   return (
     <TemplateDefault>
       <Container maxWidth="md">
-        <Typography component="h1" variant="h3" align="center" color="primary">
+        <Typography component="h1" variant="h3" align="center" color="primary" marginTop={20}>
           O que deseja encontrar?
         </Typography>
         <SearchInput />
       </Container>
 
       <Container maxWidth="lg" className={styles.cardGrid}>
-        <Typography component="h2" variant="h4" align="center" color="primary">
+        <Typography component="h1" variant="h4" align="center" color="primary">
           Destaques
         </Typography>
         <br />
@@ -61,7 +61,7 @@ export async function getServerSideProps() {
 
   const products = await ProductsModel.aggregate([
     {
-      $sample: { size: 3 },
+      $sample: { size: 6 },
     },
   ]);
 
