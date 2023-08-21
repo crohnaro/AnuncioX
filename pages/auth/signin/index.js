@@ -19,8 +19,10 @@ import SendIcon from "@mui/icons-material/Send";
 import { Formik } from "formik";
 import { signIn, useSession } from "next-auth/react";
 import { initialValues, validationSchema } from "../../../lib/formValuesSignin";
+import { useState } from "react";
 
-import logo from "../../../public/Mediamodifier-Design-Template.png";
+import logob from "../../../public/logo-black.png";
+import logow from "../../../public/logo-white.png";
 
 const handleGoogleLogin = () => {
   signIn("google", {
@@ -42,7 +44,8 @@ const handleAuthentication = async (values) => {
   }
 };
 
-function ColorSchemeToggle({ onClick, ...props }) {
+function ColorSchemeToggle({ onClick, logoMode, setLogoMode, ...props }) {
+  
   const { mode, setMode } = useColorScheme();
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => {
@@ -62,8 +65,10 @@ function ColorSchemeToggle({ onClick, ...props }) {
       onClick={(event) => {
         if (mode === "light") {
           setMode("dark");
+          setLogoMode("dark");
         } else {
           setMode("light");
+          setLogoMode("light")
         }
         onClick?.(event);
       }}
@@ -74,6 +79,7 @@ function ColorSchemeToggle({ onClick, ...props }) {
 }
 
 const Signuptest = () => {
+  const [logoMode, setLogoMode] = useState("light")
   return (
     <CssVarsProvider defaultMode="dark" disableTransitionOnChange>
       <CssBaseline />
@@ -134,9 +140,9 @@ const Signuptest = () => {
               }}
               href={"/"}
             >
-              <Image alt="anunX Logo" width={64} priority src={logo} />
+              <Image alt="anunX Logo" width={64} priority src={logoMode === "dark" ? logob : logow} />
             </Link>
-            <ColorSchemeToggle />
+            <ColorSchemeToggle logoMode={logoMode} setLogoMode={setLogoMode} />
           </Box>
           <Box
             component="main"
