@@ -21,7 +21,7 @@ import Link from "next/link";
 import { AccountCircle } from "@mui/icons-material";
 import { useState } from "react";
 import Image from "next/image";
-import logo from '../../public/Mediamodifier-Design-Template.png'
+import logo from '../../public/logo-black.png'
 
 export default function ButtonAppBar() {
   const [anchorUserMenu, setAnchorUserMenu] = useState(false);
