@@ -6,12 +6,10 @@ import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel, { formLabelClasses } from "@mui/joy/FormLabel";
-import IconButton from "@mui/joy/IconButton";
 import Link from "@mui/joy/Link";
 import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
-import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
-import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
+
 import GoogleIcon from "@/public/google-logo.svg";
 import Image from "next/image";
 import SendIcon from "@mui/icons-material/Send";
@@ -44,39 +42,7 @@ const handleAuthentication = async (values) => {
   }
 };
 
-function ColorSchemeToggle({ onClick, logoMode, setLogoMode, ...props }) {
-  
-  const { mode, setMode } = useColorScheme();
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-  if (!mounted) {
-    return <IconButton size="sm" variant="plain" color="neutral" disabled />;
-  }
-  return (
-    <IconButton
-      id="toggle-mode"
-      size="sm"
-      variant="plain"
-      color="neutral"
-      aria-label="toggle light/dark mode"
-      {...props}
-      onClick={(event) => {
-        if (mode === "light") {
-          setMode("dark");
-          setLogoMode("dark");
-        } else {
-          setMode("light");
-          setLogoMode("light")
-        }
-        onClick?.(event);
-      }}
-    >
-      {mode === "light" ? <DarkModeRoundedIcon /> : <LightModeRoundedIcon />}
-    </IconButton>
-  );
-}
+
 
 const Signuptest = () => {
   const [logoMode, setLogoMode] = useState("light")
@@ -140,9 +106,8 @@ const Signuptest = () => {
               }}
               href={"/"}
             >
-              <Image alt="anunX Logo" width={64} priority src={logoMode === "dark" ? logob : logow} />
+              <Image alt="anunX Logo" width={64} priority src={logob} />
             </Link>
-            <ColorSchemeToggle logoMode={logoMode} setLogoMode={setLogoMode} />
           </Box>
           <Box
             component="main"
