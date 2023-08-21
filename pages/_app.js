@@ -7,6 +7,7 @@ import { SessionProvider } from "next-auth/react"
 import CheckAuth from '../src/components/CheckAuth';
 
 
+
 export default function MyApp({
   Component, 
   pageProps: {session, ...pageProps},
