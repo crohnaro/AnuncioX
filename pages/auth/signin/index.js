@@ -20,7 +20,7 @@ import { Formik } from "formik";
 import { signIn, useSession } from "next-auth/react";
 import { initialValues, validationSchema } from "../../../lib/formValuesSignin";
 
-import logo from '../../../public/Mediamodifier-Design-Template.png'
+import logo from "../../../public/Mediamodifier-Design-Template.png";
 
 const handleGoogleLogin = () => {
   signIn("google", {
@@ -290,10 +290,10 @@ const Signuptest = () => {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundImage:
-            "url(https://images.unsplash.com/photo-1527181152855-fc03fc7949c8?auto=format&w=1000&dpr=2)",
+            "url(https://images.unsplash.com/photo-1553413077-190dd305871c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80)",
           [theme.getColorSchemeSelector("dark")]: {
             backgroundImage:
-              "url(https://images.unsplash.com/photo-1572072393749-3ca9c8ea0831?auto=format&w=1000&dpr=2)",
+              "url(https://images.unsplash.com/photo-1551825687-f9de1603ed8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80)",
           },
         })}
       />
