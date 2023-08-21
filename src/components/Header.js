@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 import { signOut, useSession } from "next-auth/react";
 
@@ -17,8 +18,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import Link from "next/link";
-import { AccountCircle } from "@mui/icons-material";
+import Link from "next/link"
 import { useState } from "react";
 import Image from "next/image";
 import logo from '../../public/logo-black.png'
@@ -42,30 +42,23 @@ export default function ButtonAppBar() {
               </Typography>
             
             
-            <Link style={{ textDecoration: 'none' }} href={session ? '/user/publish' : '/auth/signin'} passHref>
-              <Button color="secondary" variant="outlined">
+              <Button href={session ? '/user/publish' : '/auth/signin'} color="secondary" variant="contained" endIcon={<AddShoppingCartIcon />}>
                 Anunciar e Vender
               </Button>
-            </Link>
+            
             {
               session
                 ? (
                   <IconButton
                     color="secondary"
                     onClick={(e) => setAnchorUserMenu(e.currentTarget)}
+                    sx={{ marginLeft: '18px' }}
                   >
                     {
                       session.user.image 
                       ? <Avatar className={styles.avatar} src={session.user.image} /> 
-                      : <AccountCircle />
+                      : <Avatar>{session.user.name[0].toUpperCase()}</Avatar>
                     }
-                    <Typography
-                      className={styles.userName}
-                      variant="subtitle2"
-                      color="secondary"
-                    >
-                      {session.user.name}
-                    </Typography>
                   </IconButton>
                 )
                 : null
