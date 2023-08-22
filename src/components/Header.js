@@ -27,7 +27,7 @@ import logo from "../../public/logo-black.png";
 
 import styles from "../styles/Header.module.css";
 import { ColorModeContext } from "../../src/contexts/ColorModeContext";
-import { lightBlue } from "@mui/material/colors";
+import { LightTheme as theme} from '../themes'
 
 export default function ButtonAppBar() {
   const [anchorUserMenu, setAnchorUserMenu] = useState(false);
@@ -40,9 +40,13 @@ export default function ButtonAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" elevation={3}>
+      <AppBar 
+        sx={{backgroundColor: theme.palette.mode === 'dark' 
+        ? theme.palette.background.paper 
+        : theme.palette.primary.light }}  
+        position="static" elevation={3}>
         <Container maxWidth="lg">
-          <Toolbar>
+          <Toolbar >
             <Typography sx={{ flexGrow: 1 }} variant="h6" component="div">
               <Link
                 style={{
@@ -60,11 +64,11 @@ export default function ButtonAppBar() {
 
             <Button
               href={session ? "/user/publish" : "/auth/signin"}
-              color="secondary"
+              color="button"
               variant="contained"
-              endIcon={<AddShoppingCartIcon />}
+              endIcon={<AddShoppingCartIcon sx={{color: "#303134"}} />}
             >
-              Anunciar e Vender
+              <Typography color="#303134" variant="body2">Anunciar e Vender</Typography>
             </Button>
 
             <Box>
