@@ -17,6 +17,12 @@ export const DarkTheme = createTheme({
       light: cyan[300],
       contrastText: "#fff",
     },
+    button: {
+      main: "#f7f6f3",
+    },
+    buttontext: {
+      main: "#000000",
+    },
     background: {
       paper: "#303134",
       default: "#202124",

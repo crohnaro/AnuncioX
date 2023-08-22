@@ -16,9 +16,17 @@ export const LightTheme = createTheme({
       light: cyan[300],
       contrastText: "#fff",
     },
+    button: {
+      main: "#f7f6f3",
+    },
     background: {
       paper: "#fff",
       default: "#f7f6f3",
     },
+    typography: {
+      allVariants: {
+        color: "#303134"
+      }
+    }
   }
 });
