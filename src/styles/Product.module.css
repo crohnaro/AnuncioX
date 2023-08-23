@@ -1,8 +1,9 @@
 .box {
-  background-color: white;
   padding: 15px;
   margin-bottom: 30px;
+  border-radius: 5px;
 }
+
 
 .productName {
   margin: 15px 0;
