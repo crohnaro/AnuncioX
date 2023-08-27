@@ -32,9 +32,12 @@ import AnnounceButton from "./Annouce";
 
 export default function ButtonAppBar() {
   const [anchorUserMenu, setAnchorUserMenu] = useState(false);
+  const [anchorUserMenuWithoutSession, setAnchorUserMenuWithoutSession] =
+    useState(false);
   const { data: session, status } = useSession();
 
   const openUserMenu = Boolean(anchorUserMenu);
+  const openUserMenuWithoutSession = Boolean(anchorUserMenuWithoutSession);
 
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
@@ -67,6 +70,35 @@ export default function ButtonAppBar() {
                 <Image alt="anunX Logo" width={64} priority src={logo} />
               </Link>
             </Typography>
+
+            <div className={styles.moreIconContainer}>
+              <IconButton
+                onClick={(e) =>
+                  setAnchorUserMenuWithoutSession(e.currentTarget)
+                }
+              >
+                <MoreIcon sx={{ color: "#fff" }} />
+              </IconButton>
+            </div>
+
+            <Menu
+              anchorEl={anchorUserMenuWithoutSession}
+              open={openUserMenuWithoutSession}
+              onClose={() => setAnchorUserMenuWithoutSession(null)}
+            >
+              <MenuItem>
+                <AnnounceButton />
+              </MenuItem>
+              <MenuItem sx={{ alignItems: "center", justifyContent: "center" }}>
+                <IconButton onClick={colorMode.toggleColorMode} color="inherit">
+                  {theme.palette.mode === "dark" ? (
+                    <Brightness7 />
+                  ) : (
+                    <Brightness4 />
+                  )}
+                </IconButton>
+              </MenuItem>
+            </Menu>
 
             {session ? (
               <div>
@@ -117,7 +149,9 @@ export default function ButtonAppBar() {
                   <MenuItem>
                     <AnnounceButton />
                   </MenuItem>
-                  <MenuItem sx={{ alignItems: "center", justifyContent: "center"}}>
+                  <MenuItem
+                    sx={{ alignItems: "center", justifyContent: "center" }}
+                  >
                     <IconButton
                       onClick={colorMode.toggleColorMode}
                       color="inherit"
@@ -139,13 +173,10 @@ export default function ButtonAppBar() {
                   >
                     Sair
                   </MenuItem>
-
-                  {/* Renderiza o AnnounceButton e o botão de toggleColorMode dentro do Menu */}
                 </Menu>
               </div>
             ) : (
-              <div>
-                {/* Renderiza o AnnounceButton e o botão de toggleColorMode fora do Menu */}
+              <div className={styles.announceBtnColorToogle}>
                 <AnnounceButton />
                 <IconButton onClick={colorMode.toggleColorMode} color="inherit">
                   {theme.palette.mode === "dark" ? (
