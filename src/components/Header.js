@@ -1,6 +1,7 @@
 import * as React from "react";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { AccountCircle, Brightness4, Brightness7 } from "@mui/icons-material";
+
+import { Brightness4, Brightness7 } from "@mui/icons-material";
+import MoreIcon from "@mui/icons-material/MoreVert";
 
 import { signOut, useSession } from "next-auth/react";
 import { useState, useContext } from "react";
@@ -27,7 +28,7 @@ import logo from "../../public/logo-black.png";
 
 import styles from "../styles/Header.module.css";
 import { ColorModeContext } from "../../src/contexts/ColorModeContext";
-import { LightTheme as theme} from '../themes'
+import AnnounceButton from "./Annouce";
 
 export default function ButtonAppBar() {
   const [anchorUserMenu, setAnchorUserMenu] = useState(false);
@@ -40,13 +41,18 @@ export default function ButtonAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar 
-        sx={{backgroundColor: theme.palette.mode === 'dark' 
-        ? theme.palette.background.paper 
-        : theme.palette.primary.light }}  
-        position="static" elevation={3}>
+      <AppBar
+        sx={{
+          backgroundColor:
+            theme.palette.mode === "dark"
+              ? theme.palette.background.paper
+              : theme.palette.primary.light,
+        }}
+        position="static"
+        elevation={3}
+      >
         <Container maxWidth="lg">
-          <Toolbar >
+          <Toolbar>
             <Typography sx={{ flexGrow: 1 }} variant="h6" component="div">
               <Link
                 style={{
@@ -62,83 +68,94 @@ export default function ButtonAppBar() {
               </Link>
             </Typography>
 
-            <Button
-              href={session ? "/user/publish" : "/auth/signin"}
-              color="button"
-              variant="contained"
-              endIcon={<AddShoppingCartIcon sx={{color: "#303134"}} />}
-            >
-              <Typography color="#303134" variant="body2">Anunciar e Vender</Typography>
-            </Button>
-
-            <Box>
-              <IconButton
-                sx={{ ml: 1 }}
-                onClick={colorMode.toggleColorMode}
-                color="inherit"
-              >
-                {theme.palette.mode === "dark" ? (
-                  <Brightness7 />
-                ) : (
-                  <Brightness4 />
-                )}
-              </IconButton>
-            </Box>
-
             {session ? (
-              <IconButton
-                color="secondary"
-                onClick={(e) => setAnchorUserMenu(e.currentTarget)}
-                sx={{ marginLeft: "18px" }}
-              >
-                {session.user.image ? (
-                  <Avatar className={styles.avatar} src={session.user.image} />
-                ) : (
-                  <Avatar>{session.user.name[0].toUpperCase()}</Avatar>
-                )}
-              </IconButton>
-            ) : null}
+              <div>
+                <IconButton
+                  onClick={(e) => setAnchorUserMenu(e.currentTarget)}
+                  sx={{ marginLeft: "18px" }}
+                >
+                  {session.user.image ? (
+                    <Avatar
+                      className={styles.avatar}
+                      src={session.user.image}
+                    />
+                  ) : (
+                    <Avatar>{session.user.name[0].toUpperCase()}</Avatar>
+                  )}
+                  <MoreIcon />
+                </IconButton>
 
-            <Menu
-              anchorEl={anchorUserMenu}
-              open={openUserMenu}
-              onClose={() => setAnchorUserMenu(null)}
-            >
-              <MenuItem>
-                <Link
-                  style={{
-                    textDecoration: "none",
-                    color: "inherit",
-                  }}
-                  href="/user/dashboard"
-                  passHref
+                <Menu
+                  anchorEl={anchorUserMenu}
+                  open={openUserMenu}
+                  onClose={() => setAnchorUserMenu(null)}
                 >
-                  Menus anúncios
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link
-                  style={{
-                    textDecoration: "none",
-                    color: "inherit",
-                  }}
-                  href="/user/publish"
-                  passHref
-                >
-                  Publicar novo anúncio
-                </Link>
-              </MenuItem>
-              <Divider />
-              <MenuItem
-                onClick={() =>
-                  signOut({
-                    callbackUrl: "/",
-                  })
-                }
-              >
-                Sair
-              </MenuItem>
-            </Menu>
+                  <MenuItem>
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                      }}
+                      href="/user/dashboard"
+                      passHref
+                    >
+                      Menus anúncios
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                      }}
+                      href="/user/publish"
+                      passHref
+                    >
+                      Publicar novo anúncio
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <AnnounceButton />
+                  </MenuItem>
+                  <MenuItem sx={{ alignItems: "center", justifyContent: "center"}}>
+                    <IconButton
+                      onClick={colorMode.toggleColorMode}
+                      color="inherit"
+                    >
+                      {theme.palette.mode === "dark" ? (
+                        <Brightness7 />
+                      ) : (
+                        <Brightness4 />
+                      )}
+                    </IconButton>
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem
+                    onClick={() =>
+                      signOut({
+                        callbackUrl: "/",
+                      })
+                    }
+                  >
+                    Sair
+                  </MenuItem>
+
+                  {/* Renderiza o AnnounceButton e o botão de toggleColorMode dentro do Menu */}
+                </Menu>
+              </div>
+            ) : (
+              <div>
+                {/* Renderiza o AnnounceButton e o botão de toggleColorMode fora do Menu */}
+                <AnnounceButton />
+                <IconButton onClick={colorMode.toggleColorMode} color="inherit">
+                  {theme.palette.mode === "dark" ? (
+                    <Brightness7 />
+                  ) : (
+                    <Brightness4 />
+                  )}
+                </IconButton>
+              </div>
+            )}
           </Toolbar>
         </Container>
       </AppBar>
