@@ -35,7 +35,7 @@ export const authOptions = {
   },
 
   pages: {
-    error: '/auth/signintest?i=1'
+    error: '/auth/signin?i=1'
   },
 
   callbacks: {
