@@ -201,7 +201,7 @@ const Signuptest = () => {
                     >
                       <Link
                         fontSize="sm"
-                        href="#replace-with-a-link"
+                        href="/auth/signup"
                         fontWeight="lg"
                       >
                         Ainda não tem conta? Registre-se!

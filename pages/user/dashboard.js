@@ -29,6 +29,8 @@ const Home = ({ products }) => {
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const { setToasty } = useToasty();
 
+  console.log(products)
+
   const handleCloseModal = () => setOpenConfirmModal(false);
 
   const handleClickRemove = (productId) => {
@@ -184,7 +186,9 @@ export async function getServerSideProps({ req }) {
     "user.email": session.user.email,
   });
 
-  console.log(products);
+  console.log(products)
+
+  
   return {
     props: {
       products: JSON.parse(JSON.stringify(products)),
