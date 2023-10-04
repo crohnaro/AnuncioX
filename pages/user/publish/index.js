@@ -82,10 +82,10 @@ const Publish = ({ userEmail, image }) => {
   return (
     <TemplateDefault>
       <Container maxWidth="sm">
-        <Typography component="h1" variant="h2" align="center" color="primary">
+        <Typography component="h1" variant="h2" align="center" color="inherit">
           Publicar Anúncio
         </Typography>
-        <Typography component="h1" variant="h5" align="center" color="primary">
+        <Typography component="h1" variant="h5" align="center" color="inherit">
           Quanto mais detalhado, melhor!
         </Typography>
       </Container>
@@ -281,7 +281,7 @@ const Publish = ({ userEmail, image }) => {
                   <Typography
                     component="h6"
                     variant="h6"
-                    color="primary"
+                    color="inherit"
                     gutterBottom
                   >
                     Dados de Contato
