@@ -35,14 +35,14 @@ const FileUpload = ({ files, errors, touched, setFieldValue }) => {
       <Typography
         component="h6"
         variant="h6"
-        color={errors && touched ? "error" : "primary"}
+        color={errors && touched ? "error" : "inherit"}
       >
         Imagens
       </Typography>
       <Typography
         component="div"
         variant="body2"
-        color={errors && touched ? "error" : "primary"}
+        color={errors && touched ? "error" : "inherit"}
       >
         A primeira imagem é a foto principal do seu anúncio.
       </Typography>
@@ -62,7 +62,7 @@ const FileUpload = ({ files, errors, touched, setFieldValue }) => {
           <input name="files" {...getInputProps()} />
           <Typography
             variant="body2"
-            color={errors && touched ? "error" : "primary"}
+            color={errors && touched ? "error" : "inherit"}
           >
             Clique para adicionar ou arraste a imagem para aqui.
           </Typography>
@@ -75,14 +75,14 @@ const FileUpload = ({ files, errors, touched, setFieldValue }) => {
           >
             {index === 0 ? (
               <Box className={styles.mainImage}>
-                <Typography variant="body2" color="secondary">
+                <Typography variant="body2" color="inherit">
                   Principal
                 </Typography>
               </Box>
             ) : null}
             <Box className={styles.mask}>
               <IconButton
-                color="secondary"
+                color="inherit"
                 onClick={() => handleRemoveFile(file.name)}
               >
                 <DeleteForever fontSize="large" />
