@@ -9,7 +9,6 @@ export default function AnnounceButton() {
       href={session ? "/user/publish" : "/auth/signin"}
       color="button"
       variant="contained"
-      endIcon={<AddShoppingCartIcon sx={{ color: "#303134" }} />}
     >
       <Typography color="#303134" variant="body2">
         Anunciar e Vender
