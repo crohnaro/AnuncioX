@@ -16,8 +16,6 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/joy": "^5.0.0-beta.2",
     "@mui/material": "^5.11.16",
-    "@next-auth/mongodb-adapter": "^1.1.3",
-    "@next-auth/typeorm-legacy-adapter": "^2.0.2",
     "axios": "^1.3.6",
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.40.0",
@@ -31,12 +29,12 @@
     "next": "^13.3.0",
     "next-auth": "^4.22.1",
     "next-connect": "^0.13.0",
+    "nodemailer": "^6.9.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-material-ui-carousel": "^3.4.2",
     "slugify": "^1.6.6",
-    "typeorm": "^0.3.7",
     "yup": "^1.1.1"
   }
 }
