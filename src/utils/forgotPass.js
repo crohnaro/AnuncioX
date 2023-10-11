@@ -1,4 +1,4 @@
-const transporter = require('./nodemailerConfig');
+import transporter from "./nodemailerConfig";
 
 const generateToken = () => {
   // Lógica para gerar um token único
