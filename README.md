@@ -2,6 +2,9 @@
 
 O AnuncioX é um projeto de plataforma de compra e venda online, inspirado na funcionalidade da OLX. Utilizando o framework Next.js, este projeto oferece uma experiência similar para os usuários interessados em anúncios de produtos e serviços.
 
+## Link do deploy!
+https://anunx-74d60b273de3.herokuapp.com/
+
 ## Tecnologias Utilizadas
 
 - **Next.js**: Framework utilizado para o desenvolvimento da aplicação web.
