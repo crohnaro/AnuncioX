@@ -14,15 +14,25 @@ Para rodar o projeto localmente, siga os passos abaixo:
 
 1. Certifique-se de ter o Node.js instalado na sua máquina.
 2. Faça o clone deste repositório: 
-   ```git clone https://github.com/seu-usuario/AnuncioX.git```
-3. Acesse o diretório do projeto: ```cd AnuncioX```
-4. Instale as dependências utilizando npm: ```npm install```
+```bash
+git clone https://github.com/seu-usuario/AnuncioX.git
+```
+4. Acesse o diretório do projeto: 
+```bash 
+cd AnuncioX
+```
+5. Instale as dependências utilizando npm: 
+```bash 
+npm install
+```
 
 ## Executando o Projeto
 
 Após a instalação das dependências, você pode rodar o projeto localmente com o seguinte comando:
 
-```npm run dev```
+```bash
+npm run dev
+```
 
 Isso iniciará o servidor de desenvolvimento. Acesse [http://localhost:3000](http://localhost:3000) no seu navegador para visualizar a aplicação.
 
